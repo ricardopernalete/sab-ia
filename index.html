@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAB-IA | Plataforma de Inteligencia Educativa y Conectividad Global</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -13,6 +15,8 @@
             --light: #f8f9fa;
             --dark: #212529;
             --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
             --rounded: 12px;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
@@ -47,7 +51,7 @@
         }
 
         .logo {
-            height: 500px;
+            height: 60px;
         }
 
         .btn {
@@ -84,6 +88,11 @@
 
         .btn-secondary:hover {
             background: var(--light);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
         }
 
         /* Hero Section */
@@ -220,7 +229,7 @@
             font-weight: 600;
         }
 
-        /* Contact Form */
+        /* Form Section */
         .form-section {
             background: white;
             padding: 60px 20px;
@@ -258,6 +267,116 @@
             border-color: var(--primary);
         }
 
+        /* Confirmation Section */
+        #confirmation {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: var(--rounded);
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .comprobante {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        .comprobante h3 {
+            color: #3a0ca3;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 22px;
+            border-bottom: 2px solid #4361ee;
+            padding-bottom: 10px;
+        }
+
+        .comprobante p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .comprobante strong {
+            color: #3a0ca3;
+            min-width: 150px;
+            display: inline-block;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        /* Error Handling */
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .is-invalid {
+            border-color: var(--danger) !important;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: var(--rounded);
+            box-shadow: var(--shadow);
+            margin-bottom: 60px;
+        }
+
+        .registrations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .registrations-table th, 
+        .registrations-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .registrations-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .registrations-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
         /* Footer */
         footer {
             background: var(--dark);
@@ -266,54 +385,7 @@
             text-align: center;
             border-radius: var(--rounded);
         }
-.comprobante {
-    background: white;
-    color: #333;
-    padding: 30px;
-    border-radius: 8px;
-    max-width: 800px;
-    margin: 0 auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
-}
 
-.comprobante h3 {
-    color: #3a0ca3;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 22px;
-    border-bottom: 2px solid #4361ee;
-    padding-bottom: 10px;
-}
-
-.comprobante p {
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-
-.comprobante strong {
-    color: #3a0ca3;
-    min-width: 150px;
-    display: inline-block;
-}
-
-@media print {
-    body * {
-        visibility: hidden;
-    }
-    .comprobante, .comprobante * {
-        visibility: visible;
-    }
-    .comprobante {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        margin: 0;
-        padding: 20px;
-        box-shadow: none;
-    }
-}
         .footer-logo {
             height: 100px;
             margin-bottom: 20px;
@@ -342,6 +414,36 @@
             font-size: 0.9rem;
         }
 
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: var(--rounded);
+            box-shadow: var(--shadow);
+            max-width: 400px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -360,12 +462,26 @@
             .features {
                 grid-template-columns: 1fr;
             }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .registrations-table {
+                display: block;
+                overflow-x: auto;
+            }
         }
 
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .animate {
@@ -381,7 +497,10 @@
     <div class="container">
         <header class="header">
             <img src="logo.png" alt="SAB-IA Logo" class="logo">
-            <a href="#contact" class="btn btn-primary">Registrarse</a>
+            <div>
+                <button id="adminLoginBtn" class="btn btn-secondary" style="margin-right: 10px;">Admin</button>
+                <a href="#contact" class="btn btn-primary">Registrarse</a>
+            </div>
         </header>
 
         <section class="hero animate">
@@ -445,7 +564,6 @@
             </div>
             
             <div class="video-container">
-                <!-- Reemplazar con video real -->
                 <div style="background: var(--secondary); color: white; padding: 2rem; aspect-ratio: 16/9; display: grid; place-items: center;">
                     [VIDEO DEMOSTRATIVO: Mostrar traducción simultánea en congreso y experiencia de aprendizaje personalizado]
                 </div>
@@ -459,12 +577,12 @@
             
             <div class="testimonial-card">
                 <p>"Como investigadora en Cabimas, por primera vez pude participar activamente en un congreso en Harvard gracias a la traducción neuronal de SAB-IA. La precisión con términos médicos fue asombrosa."</p>
-                <p class="author">Dra. --------, Médico, Zulia</p>
+                <p class="author">Dra. María Fernández, Médico, Zulia</p>
             </div>
             
             <div class="testimonial-card">
                 <p>"La INA entendió mis dificultades con conceptos técnicos y los explicó con ejemplos de nuestra industria petrolera local. Aprobé mi certificación en 3 meses y conseguí empleo."</p>
-                <p class="author">--------, Técnico Industrial, Cabimas</p>
+                <p class="author">Luis González, Técnico Industrial, Cabimas</p>
             </div>
         </section>
 
@@ -475,34 +593,102 @@
             </div>
             
             <div class="form-container">
-                <form>
+                <form id="registrationForm">
                     <div class="form-group">
                         <label for="name">Nombre completo</label>
                         <input type="text" id="name" class="form-control" required>
+                        <div class="error-message" id="name-error">Por favor ingrese su nombre completo</div>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Correo electrónico</label>
                         <input type="email" id="email" class="form-control" required>
+                        <div class="error-message" id="email-error">Ingrese un correo electrónico válido</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Teléfono (WhatsApp)</label>
+                        <input type="tel" id="phone" class="form-control">
                     </div>
                     
                     <div class="form-group">
                         <label for="interest">¿Qué le interesa más?</label>
-                        <select id="interest" class="form-control">
-                            <option>Programas técnicos y oficios</option>
-                            <option>Grados y posgrados</option>
-                            <option>Traducción simultánea para eventos</option>
-                            <option>Emprendimiento con IA</option>
+                        <select id="interest" class="form-control" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="tecnicos">Programas técnicos y oficios</option>
+                            <option value="posgrados">Grados y posgrados</option>
+                            <option value="traduccion">Traducción simultánea para eventos</option>
+                            <option value="emprendimiento">Emprendimiento con IA</option>
                         </select>
+                        <div class="error-message" id="interest-error">Seleccione un área de interés</div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar solicitud</button>
+                    <div class="form-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">Acepto los <a href="#" id="termsLink">términos y condiciones</a></label>
+                        <div class="error-message" id="terms-error">Debe aceptar los términos y condiciones</div>
+                    </div>
+                    
+                    <div class="loading" id="formLoading">
+                        <div class="spinner"></div>
+                        <p>Procesando su solicitud...</p>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitBtn">Enviar solicitud</button>
                 </form>
+                
+                <div id="confirmation">
+                    <div class="comprobante" id="comprobante">
+                        <h3>Comprobante de Registro Exitoso</h3>
+                        <p><strong>Nombre:</strong> <span id="comp-name"></span></p>
+                        <p><strong>Correo electrónico:</strong> <span id="comp-email"></span></p>
+                        <p><strong>Área de interés:</strong> <span id="comp-interest"></span></p>
+                        <p><strong>Fecha y hora:</strong> <span id="comp-date"></span></p>
+                        <p><strong>Código de registro:</strong> <span id="comp-code" style="font-weight: bold; color: var(--secondary);"></span></p>
+                        <p style="margin-top: 20px;">Gracias por registrarse en SAB-IA. Nos pondremos en contacto con usted en las próximas 48 horas.</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="downloadBtn" class="btn btn-secondary">
+                            Descargar Comprobante
+                        </button>
+                        <a id="whatsappBtn" class="btn btn-primary" target="_blank">
+                            Contactar por WhatsApp
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- Admin Panel -->
+        <div class="admin-panel" id="adminPanel">
+            <h2>Panel de Administración</h2>
+            <p>Registros de usuarios</p>
+            
+            <div class="action-buttons">
+                <button id="exportDataBtn" class="btn btn-primary">Exportar Datos</button>
+                <button id="logoutBtn" class="btn btn-danger">Cerrar Sesión</button>
+            </div>
+            
+            <table class="registrations-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Interés</th>
+                        <th>Fecha</th>
+                        <th>Código</th>
+                    </tr>
+                </thead>
+                <tbody id="registrationsTableBody">
+                    <!-- Datos se cargarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
         <footer class="animate">
-           
+            <img src="logo-white.png" alt="SAB-IA Logo" class="footer-logo">
             
             <div class="footer-links">
                 <a href="#">Inicio</a>
@@ -512,26 +698,223 @@
                 <a href="#">Privacidad</a>
             </div>
             
-            <p class="copyright">© 2025 SAB-IA. Plataforma de Inteligencia Educativa y Conectividad Global</p>
+            <p class="copyright">© 2023 SAB-IA. Plataforma de Inteligencia Educativa y Conectividad Global</p>
             <p>Cabimas, Zulia - Venezuela | Proyección Global</p>
         </footer>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ... (código de animaciones existente) ...
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Acceso Administrativo</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                
+                <div class="loading" id="loginLoading">
+                    <div class="spinner"></div>
+                    <p>Verificando credenciales...</p>
+                </div>
+                
+                <div class="error-message" id="login-error"></div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Ingresar</button>
+            </form>
+        </div>
+    </div>
 
-        // Manejar el formulario
+    <script>
+    // Sistema de Registro y Administración SAB-IA
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos del DOM
         const form = document.getElementById('registrationForm');
         const confirmationSection = document.getElementById('confirmation');
+        const loadingIndicator = document.getElementById('formLoading');
+        const submitBtn = document.getElementById('submitBtn');
+        const adminPanel = document.getElementById('adminPanel');
+        const loginModal = document.getElementById('loginModal');
+        const loginForm = document.getElementById('loginForm');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const closeModal = document.querySelector('.close-modal');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const exportDataBtn = document.getElementById('exportDataBtn');
+        const registrationsTableBody = document.getElementById('registrationsTableBody');
         
-        form.addEventListener('submit', function(e) {
+        // Almacenamiento de registros (simulado)
+        let registrations = JSON.parse(localStorage.getItem('sabiaRegistrations')) || [];
+        let isAdminLoggedIn = localStorage.getItem('sabiaAdminLoggedIn') === 'true';
+
+        // Inicializar
+        if (isAdminLoggedIn) {
+            showAdminPanel();
+        }
+
+        // Event Listeners
+        adminLoginBtn.addEventListener('click', showLoginModal);
+        closeModal.addEventListener('click', hideLoginModal);
+        logoutBtn.addEventListener('click', logoutAdmin);
+        exportDataBtn.addEventListener('click', exportRegistrations);
+        
+        // Validación en tiempo real
+        document.getElementById('name').addEventListener('input', validateName);
+        document.getElementById('email').addEventListener('input', validateEmail);
+        document.getElementById('interest').addEventListener('change', validateInterest);
+        document.getElementById('terms').addEventListener('change', validateTerms);
+        
+        // Mostrar términos
+        document.getElementById('termsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert("TÉRMINOS Y CONDICIONES\n\n1. Uso de datos: La información proporcionada será utilizada para...\n\n2. Privacidad: Nos comprometemos a proteger sus datos...");
+        });
+
+        // Manejo del formulario de registro
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Obtener los valores del formulario
+            if(validateForm()) {
+                try {
+                    // Mostrar carga
+                    submitBtn.disabled = true;
+                    loadingIndicator.style.display = 'block';
+                    
+                    // Simular envío a backend
+                    await simulateBackendCall();
+                    
+                    // Procesar registro exitoso
+                    processSuccessfulRegistration();
+                    
+                } catch (error) {
+                    console.error('Error en el registro:', error);
+                    alert('Ocurrió un error. Por favor intente nuevamente.');
+                } finally {
+                    submitBtn.disabled = false;
+                    loadingIndicator.style.display = 'none';
+                }
+            }
+        });
+
+        // Manejo del formulario de login
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Mostrar carga
+            document.getElementById('loginLoading').style.display = 'block';
+            document.getElementById('login-error').style.display = 'none';
+            
+            // Simular verificación
+            setTimeout(() => {
+                if (username === 'admin' && password === 'Sabia2023!') {
+                    // Login exitoso
+                    localStorage.setItem('sabiaAdminLoggedIn', 'true');
+                    isAdminLoggedIn = true;
+                    hideLoginModal();
+                    showAdminPanel();
+                    loadRegistrations();
+                } else {
+                    // Error en credenciales
+                    document.getElementById('login-error').textContent = 'Usuario o contraseña incorrectos';
+                    document.getElementById('login-error').style.display = 'block';
+                }
+                document.getElementById('loginLoading').style.display = 'none';
+            }, 1000);
+        });
+
+        // Funciones de validación
+        function validateName() {
+            const nameInput = document.getElementById('name');
+            const errorElement = document.getElementById('name-error');
+            
+            if(nameInput.value.trim().length < 3) {
+                nameInput.classList.add('is-invalid');
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                nameInput.classList.remove('is-invalid');
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validateEmail() {
+            const emailInput = document.getElementById('email');
+            const errorElement = document.getElementById('email-error');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if(!emailRegex.test(emailInput.value)) {
+                emailInput.classList.add('is-invalid');
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                emailInput.classList.remove('is-invalid');
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validateInterest() {
+            const interestSelect = document.getElementById('interest');
+            const errorElement = document.getElementById('interest-error');
+            
+            if(!interestSelect.value) {
+                interestSelect.classList.add('is-invalid');
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                interestSelect.classList.remove('is-invalid');
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validateTerms() {
+            const termsCheckbox = document.getElementById('terms');
+            const errorElement = document.getElementById('terms-error');
+            
+            if(!termsCheckbox.checked) {
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validateForm() {
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isInterestValid = validateInterest();
+            const isTermsValid = validateTerms();
+            
+            return isNameValid && isEmailValid && isInterestValid && isTermsValid;
+        }
+        
+        // Simulación de llamada al backend
+        function simulateBackendCall() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({ status: 'success' });
+                }, 1500);
+            });
+        }
+        
+        // Procesar registro exitoso
+        function processSuccessfulRegistration() {
+            // Obtener valores del formulario
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            const interest = document.getElementById('interest').value;
+            const phone = document.getElementById('phone').value || 'No proporcionado';
+            const interest = document.getElementById('interest').options[document.getElementById('interest').selectedIndex].text;
+            const interestValue = document.getElementById('interest').value;
             
             // Generar código aleatorio
             const randomCode = 'SAB-' + Math.floor(100000 + Math.random() * 900000);
@@ -547,6 +930,24 @@
                 hour12: true 
             };
             const dateTime = now.toLocaleDateString('es-ES', options);
+            const timestamp = now.toISOString();
+            
+            // Crear objeto de registro
+            const registration = {
+                id: Date.now(),
+                name,
+                email,
+                phone,
+                interest: interestValue,
+                interestText: interest,
+                code: randomCode,
+                timestamp,
+                dateTime
+            };
+            
+            // Guardar en almacenamiento local (simulando backend)
+            registrations.push(registration);
+            localStorage.setItem('sabiaRegistrations', JSON.stringify(registrations));
             
             // Llenar el comprobante
             document.getElementById('comp-name').textContent = name;
@@ -557,7 +958,7 @@
             
             // Configurar el botón de WhatsApp
             const whatsappBtn = document.getElementById('whatsappBtn');
-            const whatsappMessage = `Hola SAB-IA, adjunto mi comprobante de inscripción:\n\n*Nombre:* ${name}\n*Código:* ${randomCode}\n*Fecha:* ${dateTime}`;
+            const whatsappMessage = `Hola SAB-IA, adjunto mi comprobante de inscripción:\n\n*Nombre:* ${name}\n*Email:* ${email}\n*Teléfono:* ${phone}\n*Interés:* ${interest}\n*Código:* ${randomCode}\n*Fecha:* ${dateTime}`;
             whatsappBtn.href = `https://wa.me/584127301566?text=${encodeURIComponent(whatsappMessage)}`;
             
             // Ocultar formulario y mostrar confirmación
@@ -567,61 +968,110 @@
             // Desplazarse a la sección de confirmación
             confirmationSection.scrollIntoView({ behavior: 'smooth' });
             
-            // Generar PDF automáticamente (opcional)
-            // generatePDF();
-        });
+            // Actualizar panel admin si está visible
+            if (isAdminLoggedIn) {
+                loadRegistrations();
+            }
+        }
         
-        // Función mejorada para generar PDF
-        function generatePDF() {
+        // Generar PDF del comprobante
+        document.getElementById('downloadBtn').addEventListener('click', function() {
             const element = document.getElementById('comprobante');
-            
-            // Clonar el elemento para evitar problemas de estilo
-            const elementClone = element.cloneNode(true);
-            document.body.appendChild(elementClone);
-            elementClone.style.display = 'block';
-            
-            // Configuración del PDF
             const opt = {
                 margin: 10,
-                filename: 'comprobante_inscripcion_SAB-IA.pdf',
+                filename: `Comprobante_SAB-IA_${document.getElementById('comp-code').textContent}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2,
-                    logging: true,
-                    useCORS: true,
-                    allowTaint: true
-                },
-                jsPDF: { 
-                    unit: 'mm', 
-                    format: 'a4', 
-                    orientation: 'portrait',
-                    putOnlyUsedFonts: true
-                }
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
-            // Crear PDF
-            html2pdf().set(opt).from(elementClone).toPdf().get('pdf').then(function(pdf) {
-                // Estilos adicionales para el PDF
-                const totalPages = pdf.internal.getNumberOfPages();
-                
-                for (let i = 1; i <= totalPages; i++) {
-                    pdf.setPage(i);
-                    pdf.setFontSize(10);
-                    pdf.setTextColor(100);
-                    pdf.text('Página ' + i + ' de ' + totalPages, pdf.internal.pageSize.getWidth() - 30, pdf.internal.pageSize.getHeight() - 10);
-                    
-                    // Agregar logo o marca de agua si es necesario
-                    // pdf.addImage(logoData, 'JPEG', 10, 10, 50, 15);
-                }
-            }).save().then(function() {
-                // Eliminar el clon después de generar el PDF
-                document.body.removeChild(elementClone);
+            // Generar PDF
+            html2pdf().set(opt).from(element).save();
+        });
+        
+        // Funciones de administración
+        function showLoginModal() {
+            loginModal.style.display = 'block';
+        }
+        
+        function hideLoginModal() {
+            loginModal.style.display = 'none';
+            document.getElementById('loginForm').reset();
+            document.getElementById('login-error').style.display = 'none';
+        }
+        
+        function showAdminPanel() {
+            adminPanel.style.display = 'block';
+            loadRegistrations();
+            // Ocultar otros elementos si es necesario
+            document.querySelector('header').style.display = 'none';
+            document.querySelector('.hero').style.display = 'none';
+            document.querySelector('.features-section').style.display = 'none';
+            document.querySelector('.demo-section').style.display = 'none';
+            document.querySelector('.testimonials').style.display = 'none';
+            document.querySelector('.form-section').style.display = 'none';
+            document.querySelector('footer').style.display = 'none';
+        }
+        
+        function hideAdminPanel() {
+            adminPanel.style.display = 'none';
+            // Mostrar elementos normales
+            document.querySelector('header').style.display = 'flex';
+            document.querySelector('.hero').style.display = 'block';
+            document.querySelector('.features-section').style.display = 'block';
+            document.querySelector('.demo-section').style.display = 'block';
+            document.querySelector('.testimonials').style.display = 'block';
+            document.querySelector('.form-section').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+        }
+        
+        function logoutAdmin() {
+            localStorage.setItem('sabiaAdminLoggedIn', 'false');
+            isAdminLoggedIn = false;
+            hideAdminPanel();
+        }
+        
+        function loadRegistrations() {
+            registrationsTableBody.innerHTML = '';
+            
+            // Ordenar por fecha más reciente primero
+            const sortedRegistrations = [...registrations].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            sortedRegistrations.forEach(reg => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${reg.id}</td>
+                    <td>${reg.name}</td>
+                    <td>${reg.email}</td>
+                    <td>${reg.interestText}</td>
+                    <td>${reg.dateTime}</td>
+                    <td>${reg.code}</td>
+                `;
+                registrationsTableBody.appendChild(row);
             });
         }
         
-        // Evento para el botón de descarga
-        document.getElementById('downloadBtn').addEventListener('click', generatePDF);
+        function exportRegistrations() {
+            const data = JSON.stringify(registrations, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `registros_sabia_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', function(event) {
+            if (event.target === loginModal) {
+                hideLoginModal();
+            }
+        });
     });
-</script>
+    </script>
 </body>
 </html>
