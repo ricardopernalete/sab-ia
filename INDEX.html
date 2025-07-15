@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAB-IA | Plataforma de Inteligencia Educativa y Conectividad Global</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --rounded: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 500px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: var(--rounded);
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: var(--rounded);
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Features */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 16px;
+        }
+
+        .section-title p {
+            color: var(--dark);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--rounded);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: var(--secondary);
+        }
+
+        /* Demo Video */
+        .demo-section {
+            background: white;
+            padding: 60px 20px;
+            border-radius: var(--rounded);
+            margin-bottom: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: var(--rounded);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            padding: 60px 20px;
+            border-radius: var(--rounded);
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--rounded);
+            padding: 30px;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border-left: 4px solid var(--accent);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+        }
+
+        /* Contact Form */
+        .form-section {
+            background: white;
+            padding: 60px 20px;
+            border-radius: var(--rounded);
+            box-shadow: var(--shadow);
+            margin-bottom: 60px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: var(--rounded);
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: var(--rounded);
+        }
+.comprobante {
+    background: white;
+    color: #333;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+.comprobante h3 {
+    color: #3a0ca3;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
+    border-bottom: 2px solid #4361ee;
+    padding-bottom: 10px;
+}
+
+.comprobante p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.comprobante strong {
+    color: #3a0ca3;
+    min-width: 150px;
+    display: inline-block;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .comprobante, .comprobante * {
+        visibility: visible;
+    }
+    .comprobante {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        box-shadow: none;
+    }
+}
+        .footer-logo {
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="SAB-IA Logo" class="logo">
+            <a href="#contact" class="btn btn-primary">Registrarse</a>
+        </header>
+
+        <section class="hero animate">
+            <h1>Conectando el Conocimiento Global</h1>
+            <p>Revolucionamos el aprendizaje con Inteligencia Neuronal Adaptativa (INA) que elimina barreras lingüísticas y personaliza la educación</p>
+            <div class="btn-group">
+                <a href="#demo" class="btn btn-secondary">Ver demostración</a>
+                <a href="#contact" class="btn btn-primary">Registrarse ahora</a>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="section-title animate">
+                <h2>Nuestras Características</h2>
+                <p>Descubre cómo SAB-IA está transformando la educación con tecnología de vanguardia</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card animate delay-1">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Traducción Simultánea Neuronal</h3>
+                    <p>Eventos académicos y congresos con traducción en tiempo real a alta frecuencia (latencia &lt;200ms), eliminando barreras lingüísticas globales.</p>
+                </div>
+                
+                <div class="feature-card animate delay-1">
+                    <div class="feature-icon">🧠</div>
+                    <h3>INA Empática</h3>
+                    <p>Inteligencia Neuronal Adaptativa que comprende contextos culturales (incluyendo modismos zulianos) y optimiza el aprendizaje continuamente.</p>
+                </div>
+                
+                <div class="feature-card animate delay-2">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Educación Híper-Relevante</h3>
+                    <p>Desde microcertificaciones en oficios hasta doctorados, todos co-diseñados con la industria y actualizados dinámicamente por nuestra INA.</p>
+                </div>
+                
+                <div class="feature-card animate delay-2">
+                    <div class="feature-icon">📱</div>
+                    <h3>Acceso Inclusivo</h3>
+                    <p>Funcionalidad offline, contenido "light" y acceso por SMS/voz para comunidades con conectividad limitada.</p>
+                </div>
+                
+                <div class="feature-card animate delay-3">
+                    <div class="feature-icon">💼</div>
+                    <h3>Empleabilidad Garantizada</h3>
+                    <p>Skill Graph dinámico conecta tu aprendizaje con las habilidades más demandadas en tiempo real.</p>
+                </div>
+                
+                <div class="feature-card animate delay-3">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Conectividad Global</h3>
+                    <p>Participa en el diálogo científico mundial sin barreras idiomáticas gracias a nuestra tecnología única.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="demo" class="demo-section animate">
+            <div class="section-title">
+                <h2>Descubre SAB-IA en acción</h2>
+                <p>Vea cómo nuestra Inteligencia Neuronal Adaptativa transforma la educación y la difusión del conocimiento</p>
+            </div>
+            
+            <div class="video-container">
+                <!-- Reemplazar con video real -->
+                <div style="background: var(--secondary); color: white; padding: 2rem; aspect-ratio: 16/9; display: grid; place-items: center;">
+                    [VIDEO DEMOSTRATIVO: Mostrar traducción simultánea en congreso y experiencia de aprendizaje personalizado]
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials animate">
+            <div class="section-title">
+                <h2>Lo que dicen nuestros primeros usuarios</h2>
+            </div>
+            
+            <div class="testimonial-card">
+                <p>"Como investigadora en Cabimas, por primera vez pude participar activamente en un congreso en Harvard gracias a la traducción neuronal de SAB-IA. La precisión con términos médicos fue asombrosa."</p>
+                <p class="author">Dra. --------, Médico, Zulia</p>
+            </div>
+            
+            <div class="testimonial-card">
+                <p>"La INA entendió mis dificultades con conceptos técnicos y los explicó con ejemplos de nuestra industria petrolera local. Aprobé mi certificación en 3 meses y conseguí empleo."</p>
+                <p class="author">--------, Técnico Industrial, Cabimas</p>
+            </div>
+        </section>
+
+        <section id="contact" class="form-section animate">
+            <div class="section-title">
+                <h2>Únase a la Revolución Educativa</h2>
+                <p>Regístrese ahora para acceso prioritario al lanzamiento y descuentos exclusivos</p>
+            </div>
+            
+            <div class="form-container">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Nombre completo</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interest">¿Qué le interesa más?</label>
+                        <select id="interest" class="form-control">
+                            <option>Programas técnicos y oficios</option>
+                            <option>Grados y posgrados</option>
+                            <option>Traducción simultánea para eventos</option>
+                            <option>Emprendimiento con IA</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar solicitud</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="animate">
+           
+            
+            <div class="footer-links">
+                <a href="#">Inicio</a>
+                <a href="#demo">Demo</a>
+                <a href="#contact">Contacto</a>
+                <a href="#">Términos</a>
+                <a href="#">Privacidad</a>
+            </div>
+            
+            <p class="copyright">© 2025 SAB-IA. Plataforma de Inteligencia Educativa y Conectividad Global</p>
+            <p>Cabimas, Zulia - Venezuela | Proyección Global</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... (código de animaciones existente) ...
+
+        // Manejar el formulario
+        const form = document.getElementById('registrationForm');
+        const confirmationSection = document.getElementById('confirmation');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obtener los valores del formulario
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const interest = document.getElementById('interest').value;
+            
+            // Generar código aleatorio
+            const randomCode = 'SAB-' + Math.floor(100000 + Math.random() * 900000);
+            
+            // Obtener fecha y hora actual
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            };
+            const dateTime = now.toLocaleDateString('es-ES', options);
+            
+            // Llenar el comprobante
+            document.getElementById('comp-name').textContent = name;
+            document.getElementById('comp-email').textContent = email;
+            document.getElementById('comp-interest').textContent = interest;
+            document.getElementById('comp-date').textContent = dateTime;
+            document.getElementById('comp-code').textContent = randomCode;
+            
+            // Configurar el botón de WhatsApp
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const whatsappMessage = `Hola SAB-IA, adjunto mi comprobante de inscripción:\n\n*Nombre:* ${name}\n*Código:* ${randomCode}\n*Fecha:* ${dateTime}`;
+            whatsappBtn.href = `https://wa.me/584127301566?text=${encodeURIComponent(whatsappMessage)}`;
+            
+            // Ocultar formulario y mostrar confirmación
+            form.style.display = 'none';
+            confirmationSection.style.display = 'block';
+            
+            // Desplazarse a la sección de confirmación
+            confirmationSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Generar PDF automáticamente (opcional)
+            // generatePDF();
+        });
+        
+        // Función mejorada para generar PDF
+        function generatePDF() {
+            const element = document.getElementById('comprobante');
+            
+            // Clonar el elemento para evitar problemas de estilo
+            const elementClone = element.cloneNode(true);
+            document.body.appendChild(elementClone);
+            elementClone.style.display = 'block';
+            
+            // Configuración del PDF
+            const opt = {
+                margin: 10,
+                filename: 'comprobante_inscripcion_SAB-IA.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    logging: true,
+                    useCORS: true,
+                    allowTaint: true
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    putOnlyUsedFonts: true
+                }
+            };
+            
+            // Crear PDF
+            html2pdf().set(opt).from(elementClone).toPdf().get('pdf').then(function(pdf) {
+                // Estilos adicionales para el PDF
+                const totalPages = pdf.internal.getNumberOfPages();
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    pdf.setPage(i);
+                    pdf.setFontSize(10);
+                    pdf.setTextColor(100);
+                    pdf.text('Página ' + i + ' de ' + totalPages, pdf.internal.pageSize.getWidth() - 30, pdf.internal.pageSize.getHeight() - 10);
+                    
+                    // Agregar logo o marca de agua si es necesario
+                    // pdf.addImage(logoData, 'JPEG', 10, 10, 50, 15);
+                }
+            }).save().then(function() {
+                // Eliminar el clon después de generar el PDF
+                document.body.removeChild(elementClone);
+            });
+        }
+        
+        // Evento para el botón de descarga
+        document.getElementById('downloadBtn').addEventListener('click', generatePDF);
+    });
+</script>
+</body>
+</html>
